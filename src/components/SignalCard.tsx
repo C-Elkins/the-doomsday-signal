@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { Globe, Newspaper, ShieldWarning, Rocket, TrendUp, TrendDown } from '@phosphor-icons/react'
 import { getSignalDecayPercent } from '@/lib/risk-calculator'
+import { motion } from 'framer-motion'
 
 interface SignalCardProps {
   signal: Signal
@@ -32,13 +33,28 @@ export function SignalCard({ signal, currentTime }: SignalCardProps) {
   const decayPercent = getSignalDecayPercent(signal, currentTime)
   const hoursElapsed = Math.floor((currentTime - signal.timestamp) / (1000 * 60 * 60))
   const isPositive = signal.weight > 0
+  const isRecent = hoursElapsed < 1
 
   return (
-    <Card className="p-6 border-2">
+    <Card className="p-6 border-2 relative overflow-hidden group hover:border-primary/30 transition-colors duration-300">
+      {isRecent && (
+        <motion.div
+          className="absolute top-0 left-0 right-0 h-0.5 bg-primary"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 0.5 }}
+        />
+      )}
+      
       <div className="flex items-start gap-4">
-        <div className="text-2xl" style={{ color: getCategoryColor() }}>
+        <motion.div 
+          className="text-2xl"
+          style={{ color: getCategoryColor() }}
+          whileHover={{ scale: 1.1 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+        >
           {getCategoryIcon()}
-        </div>
+        </motion.div>
         <div className="flex-1 space-y-3">
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1">
@@ -51,7 +67,12 @@ export function SignalCard({ signal, currentTime }: SignalCardProps) {
               </Badge>
               <p className="font-mono text-sm leading-relaxed">{signal.description}</p>
             </div>
-            <div className="flex items-center gap-2 flex-shrink-0">
+            <motion.div 
+              className="flex items-center gap-2 flex-shrink-0"
+              initial={{ scale: 1.2, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.3 }}
+            >
               {isPositive ? (
                 <TrendUp className="text-destructive" weight="bold" />
               ) : (
@@ -64,7 +85,7 @@ export function SignalCard({ signal, currentTime }: SignalCardProps) {
               >
                 {isPositive ? '+' : ''}{signal.weight}
               </span>
-            </div>
+            </motion.div>
           </div>
 
           <div className="space-y-2">
@@ -72,16 +93,36 @@ export function SignalCard({ signal, currentTime }: SignalCardProps) {
               <span>{hoursElapsed}h elapsed</span>
               <span>{Math.round(decayPercent)}% impact remaining</span>
             </div>
-            <Progress value={decayPercent} className="h-1" />
+            <div className="relative">
+              <Progress value={decayPercent} className="h-1" />
+              {decayPercent < 20 && (
+                <motion.div
+                  className="absolute inset-0 bg-destructive/20 rounded-full"
+                  animate={{ opacity: [0.2, 0.5, 0.2] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+              )}
+            </div>
           </div>
 
-          <div className="text-xs font-mono text-muted-foreground">
-            {new Date(signal.timestamp).toLocaleString('en-US', {
-              month: 'short',
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}
+          <div className="flex items-center justify-between text-xs font-mono text-muted-foreground">
+            <span>
+              {new Date(signal.timestamp).toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
+            </span>
+            {isRecent && (
+              <motion.span
+                className="text-primary font-bold uppercase tracking-wider"
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                NEW
+              </motion.span>
+            )}
           </div>
         </div>
       </div>

@@ -7,12 +7,17 @@ import { SignalCard } from '@/components/SignalCard'
 import { AddSignalDialog } from '@/components/AddSignalDialog'
 import { DisclaimerBanner } from '@/components/DisclaimerBanner'
 import { HistoricalContext } from '@/components/HistoricalContext'
+import { StatsSummary } from '@/components/StatsSummary'
 import { Separator } from '@/components/ui/separator'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { useAudio } from '@/hooks/use-audio'
+import { motion, AnimatePresence } from 'framer-motion'
 
 function App() {
   const [signals, setSignals] = useKV<Signal[]>('doomsday-signals', [])
   const [currentTime, setCurrentTime] = useState(Date.now())
+  const [prevRiskState, setPrevRiskState] = useState<string>('stable')
+  const { playWarningTone, playTickSound } = useAudio(false)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -33,6 +38,15 @@ function App() {
   const totalScore = calculateTotalScore(signals || [], currentTime)
   const minutesToMidnight = scoreToMinutes(totalScore)
   const riskState = getRiskState(minutesToMidnight)
+
+  useEffect(() => {
+    if (riskState !== prevRiskState) {
+      if (riskState === 'critical') {
+        playWarningTone()
+      }
+      setPrevRiskState(riskState)
+    }
+  }, [riskState, prevRiskState, playWarningTone])
 
   const historicalEvents: HistoricalEvent[] = [
     {
@@ -67,6 +81,7 @@ function App() {
       decayRate,
     }
     setSignals((currentSignals) => [newSignal, ...(currentSignals || [])])
+    playTickSound()
   }
 
   const activeSignals = signals || []
@@ -85,10 +100,15 @@ function App() {
         }}
       />
       <div 
-        className="absolute inset-0 opacity-[0.02] pointer-events-none"
+        className="absolute inset-0 opacity-[0.025] pointer-events-none"
         style={{
           backgroundImage: `radial-gradient(circle at 50% 50%, oklch(0.68 0.20 150) 0%, transparent 50%)`
         }}
+      />
+      <motion.div
+        className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent"
+        animate={{ opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
       />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         <header className="space-y-4 text-slate-100">
@@ -112,6 +132,12 @@ function App() {
           historicalEvents={historicalEvents}
         />
 
+        <StatsSummary 
+          signals={activeSignals}
+          totalScore={totalScore}
+          currentTime={currentTime}
+        />
+
         <Separator className="my-8" />
 
         <div className="grid lg:grid-cols-3 gap-8">
@@ -132,9 +158,19 @@ function App() {
               ) : (
                 <ScrollArea className="h-[600px] pr-4">
                   <div className="space-y-4">
-                    {activeSignals.map((signal) => (
-                      <SignalCard key={signal.id} signal={signal} currentTime={currentTime} />
-                    ))}
+                    <AnimatePresence mode="popLayout">
+                      {activeSignals.map((signal) => (
+                        <motion.div
+                          key={signal.id}
+                          initial={{ opacity: 0, y: -20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, x: -20 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <SignalCard signal={signal} currentTime={currentTime} />
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
                   </div>
                 </ScrollArea>
               )}
