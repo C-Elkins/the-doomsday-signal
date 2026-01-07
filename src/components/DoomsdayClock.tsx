@@ -1,8 +1,6 @@
 import { motion } from 'framer-motion'
-import { useEffect, useRef } from 'react'
 import { RiskState } from '@/lib/types'
 import { HistoricalEvent } from '@/lib/types'
-import { useAudio } from '@/hooks/use-audio'
 
 interface DoomsdayClockProps {
   minutesToMidnight: number
@@ -12,25 +10,6 @@ interface DoomsdayClockProps {
 
 export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }: DoomsdayClockProps) {
   const angle = ((60 - minutesToMidnight) / 60) * 360
-  const prevMinutesRef = useRef<number>(minutesToMidnight)
-  const { playZoneCrossing } = useAudio(true)
-
-  useEffect(() => {
-    const prevMinutes = prevMinutesRef.current
-    const currentMinutes = minutesToMidnight
-
-    if (prevMinutes !== currentMinutes) {
-      if (prevMinutes >= 10 && currentMinutes < 10) {
-        playZoneCrossing('elevated')
-      } else if (prevMinutes >= 5 && currentMinutes < 5) {
-        playZoneCrossing('severe')
-      } else if (prevMinutes >= 2 && currentMinutes < 2) {
-        playZoneCrossing('critical')
-      }
-
-      prevMinutesRef.current = currentMinutes
-    }
-  }, [minutesToMidnight, playZoneCrossing])
 
   const getStateColor = () => {
     switch (riskState) {
@@ -210,64 +189,26 @@ export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }
                 250 + 215 * Math.sin((angle * Math.PI) / 180)
               } ${250 - 215 * Math.cos((angle * Math.PI) / 180)} Z`}
               fill={getStateColor()}
-              opacity="0.12"
+              opacity="0.25"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.12 }}
+              animate={{ opacity: 0.25 }}
               transition={{ duration: 1.5, ease: 'easeInOut' }}
+              filter="url(#glow)"
             />
-
-            <motion.g
-              initial={{ rotate: 0 }}
-              animate={{ rotate: angle }}
-              transition={{ duration: 2, ease: [0.43, 0.13, 0.23, 0.96] }}
-              style={{ transformOrigin: '250px 250px' }}
-            >
-              <line
-                x1="250"
-                y1="250"
-                x2="250"
-                y2="55"
-                stroke={getStateColor()}
-                strokeWidth="8"
-                strokeLinecap="round"
-                filter="url(#ultra-glow)"
-              />
-              <line
-                x1="250"
-                y1="250"
-                x2="250"
-                y2="55"
-                stroke="oklch(0.12 0.042 265)"
-                strokeWidth="4"
-                strokeLinecap="round"
-              />
-              <polygon
-                points="250,45 258,70 242,70"
-                fill={getStateColor()}
-                filter="url(#strong-glow)"
-              />
-            </motion.g>
 
             <circle
               cx="250"
               cy="250"
-              r="15"
+              r="8"
               fill={getStateColor()}
-              filter="url(#ultra-glow)"
-            />
-
-            <circle
-              cx="250"
-              cy="250"
-              r="10"
-              fill="oklch(0.14 0.042 265)"
+              filter="url(#strong-glow)"
             />
 
             <circle
               cx="250"
               cy="250"
               r="4"
-              fill={getStateColor()}
+              fill="oklch(0.14 0.042 265)"
             />
 
             {historicalEvents.map((event, i) => {
