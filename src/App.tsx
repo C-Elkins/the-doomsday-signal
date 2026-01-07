@@ -16,8 +16,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 function App() {
   const [signals, setSignals] = useKV<Signal[]>('doomsday-signals', [])
   const [currentTime, setCurrentTime] = useState(Date.now())
-  const [prevRiskState, setPrevRiskState] = useState<string>('stable')
-  const { playWarningTone, playTickSound } = useAudio(false)
+  const { playTickSound } = useAudio(false)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -38,15 +37,6 @@ function App() {
   const totalScore = calculateTotalScore(signals || [], currentTime)
   const minutesToMidnight = scoreToMinutes(totalScore)
   const riskState = getRiskState(minutesToMidnight)
-
-  useEffect(() => {
-    if (riskState !== prevRiskState) {
-      if (riskState === 'critical') {
-        playWarningTone()
-      }
-      setPrevRiskState(riskState)
-    }
-  }, [riskState, prevRiskState, playWarningTone])
 
   const historicalEvents: HistoricalEvent[] = [
     {

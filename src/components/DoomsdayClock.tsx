@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 import { RiskState } from '@/lib/types'
 import { HistoricalEvent } from '@/lib/types'
+import { useAudio } from '@/hooks/use-audio'
 
 interface DoomsdayClockProps {
   minutesToMidnight: number
@@ -10,6 +12,25 @@ interface DoomsdayClockProps {
 
 export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }: DoomsdayClockProps) {
   const angle = -((minutesToMidnight / 60) * 360)
+  const prevMinutesRef = useRef<number>(minutesToMidnight)
+  const { playZoneCrossing } = useAudio(true)
+
+  useEffect(() => {
+    const prevMinutes = prevMinutesRef.current
+    const currentMinutes = minutesToMidnight
+
+    if (prevMinutes !== currentMinutes) {
+      if (prevMinutes >= 10 && currentMinutes < 10) {
+        playZoneCrossing('elevated')
+      } else if (prevMinutes >= 5 && currentMinutes < 5) {
+        playZoneCrossing('severe')
+      } else if (prevMinutes >= 2 && currentMinutes < 2) {
+        playZoneCrossing('critical')
+      }
+
+      prevMinutesRef.current = currentMinutes
+    }
+  }, [minutesToMidnight, playZoneCrossing])
 
   const getStateColor = () => {
     switch (riskState) {
