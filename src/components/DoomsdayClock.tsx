@@ -186,19 +186,17 @@ export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }
               )
             })}
 
-            {angle > 0 && (
-              <motion.path
-                d={`M 250 250 L 250 35 A 215 215 0 ${angle > 180 ? 1 : 0} 1 ${
-                  250 + 215 * Math.sin((angle * Math.PI) / 180)
-                } ${250 - 215 * Math.cos((angle * Math.PI) / 180)} Z`}
-                fill={getStateColor()}
-                opacity="0.25"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 0.25, scale: 1 }}
-                transition={{ duration: 0.8, ease: 'easeOut' }}
-                filter="url(#glow)"
-              />
-            )}
+            <motion.path
+              d={`M 250 250 L 250 35 A 215 215 0 ${angle > 180 ? 1 : 0} 1 ${
+                250 + 215 * Math.sin((angle * Math.PI) / 180)
+              } ${250 - 215 * Math.cos((angle * Math.PI) / 180)} Z`}
+              fill={getStateColor()}
+              opacity="0.25"
+              filter="url(#glow)"
+              style={{
+                transformOrigin: '250px 250px'
+              }}
+            />
 
             <circle
               cx="250"
