@@ -57,14 +57,14 @@ function App() {
     },
   ]
 
-  const handleAddSignal = (category: SignalCategory, description: string, weight: number) => {
+  const handleAddSignal = (category: SignalCategory, description: string, weight: number, decayRate: number = 0.05) => {
     const newSignal: Signal = {
       id: `signal-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       category,
       description,
       weight,
       timestamp: Date.now(),
-      decayRate: 0.05,
+      decayRate,
     }
     setSignals((currentSignals) => [newSignal, ...(currentSignals || [])])
   }

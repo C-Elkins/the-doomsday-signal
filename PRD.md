@@ -27,12 +27,12 @@ A symbolic, data-inspired visualization that aggregates fictional global tension
 - Success criteria: Each signal shows category, description, weight (+/-), timestamp, and decay status
 
 **Signal Creation (Educational Mode)**
-- Functionality: Users can add fictional signals to see how they affect the clock
-- Purpose: Teaches signal weighting, time decay, and systemic risk escalation
+- Functionality: Users can add fictional signals either from curated presets or create custom entries to see how they affect the clock
+- Purpose: Teaches signal weighting, time decay, and systemic risk escalation through realistic scenario templates
 - Trigger: Click "Add Signal" button
-- Progression: Click button → Select category → Enter description → Set weight → Submit → Clock updates → Signal appears in feed
-- Progression: User sees immediate cause-and-effect between events and risk assessment
-- Success criteria: New signals immediately affect clock position and appear in feed with decay timer
+- Progression: Click button → Choose between Quick Presets or Custom Signal → For presets: select category tab → browse 20+ common scenarios (treaty withdrawals, cyber attacks, diplomatic talks) → click preset → Signal instantly added with appropriate weight and decay rate → Clock updates → Signal appears in feed
+- Progression (Custom): Click button → Switch to Custom tab → Select category → Enter description → Set weight → Submit → Clock updates → Signal appears in feed
+- Success criteria: Presets cover realistic scenarios across all four categories (geopolitical, cyber, media, strategic), each with historically-informed weights and decay rates; custom signals work identically to original implementation
 
 **Time Decay Visualization**
 - Functionality: Shows how signal impact diminishes over time (older events matter less)
@@ -92,13 +92,13 @@ Animations should feel mechanical and deliberate—no bouncy modern easing. Cloc
 
 - **Components**: 
   - Card for signal items and historical context panel (modified with border colors matching theme)
-  - Badge for signal categories (Geopolitical, Media, Cyber, Strategic) with category-specific colors
-  - Dialog for signal creation form with dark overlay
-  - Button for primary actions (styled with military aesthetic)
+  - Badge for signal categories and weight indicators with semantic coloring (destructive for escalation, secondary for de-escalation)
+  - Dialog for signal creation form with dark overlay, expanded to ~700px width for preset browsing
+  - Tabs for Quick Presets vs Custom Signal entry; nested tabs within presets for category filtering
+  - Button for primary actions and preset selection (styled with military aesthetic)
   - Progress for time decay visualization on each signal
   - Separator for dividing sections with subtle borders
-  - ScrollArea for signal feed to handle many entries gracefully
-  - Tabs for switching between current signals and historical playback mode
+  - ScrollArea for signal feed and preset list to handle many entries gracefully
   
 - **Customizations**: 
   - Custom SVG clock face with manual arc drawing for "minutes to midnight" indicator
@@ -113,7 +113,8 @@ Animations should feel mechanical and deliberate—no bouncy modern easing. Cloc
   
 - **Icon Selection**: 
   - Clock for main risk indicator
-  - Plus for adding signals
+  - Plus for adding custom signals
+  - Lightning (filled) for quick preset selection
   - Warning for critical states
   - TrendUp/TrendDown for escalation indicators
   - Globe for geopolitical
