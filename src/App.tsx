@@ -84,16 +84,14 @@ function App() {
           )`
         }}
       />
-      
       <div 
         className="absolute inset-0 opacity-[0.02] pointer-events-none"
         style={{
           backgroundImage: `radial-gradient(circle at 50% 50%, oklch(0.68 0.20 150) 0%, transparent 50%)`
         }}
       />
-
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        <header className="space-y-4">
+        <header className="space-y-4 text-slate-100">
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
               <h1 className="font-display text-3xl md:text-4xl font-bold uppercase tracking-tight text-primary">
@@ -156,7 +154,7 @@ function App() {
         </footer>
       </div>
     </div>
-  )
+  );
 }
 
 export default App
