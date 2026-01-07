@@ -1,8 +1,21 @@
 {
-    "name": "spark-template",
+    "name": "the-doomsday-signal",
     "private": true,
-    "version": "0.0.0",
+    "version": "1.0.0",
+    "description": "An educational visualization of global tension signals with transparent risk assessment methodology",
+    "author": "GitHub Spark",
+    "license": "MIT",
     "type": "module",
+    "keywords": [
+        "visualization",
+        "risk-assessment",
+        "educational",
+        "doomsday-clock",
+        "signal-intelligence",
+        "data-viz",
+        "react",
+        "typescript"
+    ],
     "scripts": {
         "dev": "vite",
         "kill": "fuser -k 5000/tcp",
