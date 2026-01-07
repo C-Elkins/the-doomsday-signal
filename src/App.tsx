@@ -72,16 +72,23 @@ function App() {
   const activeSignals = signals || []
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+    <div className="min-h-screen bg-background relative">
+      <div className="absolute inset-0 opacity-[0.015] pointer-events-none"
         style={{
           backgroundImage: `repeating-linear-gradient(
             0deg,
             transparent,
             transparent 2px,
-            oklch(0.20 0.01 135) 2px,
-            oklch(0.20 0.01 135) 4px
+            oklch(0.68 0.20 150) 2px,
+            oklch(0.68 0.20 150) 4px
           )`
+        }}
+      />
+      
+      <div 
+        className="absolute inset-0 opacity-[0.02] pointer-events-none"
+        style={{
+          backgroundImage: `radial-gradient(circle at 50% 50%, oklch(0.68 0.20 150) 0%, transparent 50%)`
         }}
       />
 

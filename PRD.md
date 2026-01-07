@@ -58,20 +58,20 @@ A symbolic, data-inspired visualization that aggregates fictional global tension
 
 ## Design Direction
 
-The design should evoke Cold War-era command centers and declassified intelligence briefings—phosphor green terminals, analog clock mechanisms, and stark government typography. Users should feel like they're accessing a serious analytical tool, not entertainment. The experience should be contemplative and slightly unsettling, encouraging critical thinking about how we assess global risk.
+The design should evoke Cold War-era command centers and military bunker terminals—deep blacks, phosphor green CRT glow, and stark monospace typography. Users should feel like they're accessing a serious classified analytical system in a darkened situation room. The experience should be somber, immersive, and slightly unsettling, encouraging critical thinking about how we assess global risk in high-stakes environments.
 
 ## Color Selection
 
-A Cold War terminal aesthetic with muted earth tones and signature phosphor green accents.
+A dark military command center aesthetic with deep blacks and signature phosphor green terminal accents.
 
-- **Primary Color**: Deep military olive `oklch(0.35 0.06 135)` - Evokes military command centers and serious analytical work
-- **Secondary Colors**: Warm sepia `oklch(0.75 0.04 65)` for backgrounds suggests aged documents and declassified materials; dark charcoal `oklch(0.20 0.01 135)` for depth
-- **Accent Color**: Phosphor terminal green `oklch(0.75 0.18 145)` - Iconic CRT terminal glow for the clock and active elements, signals urgency
+- **Primary Color**: Deep military charcoal `oklch(0.28 0.08 140)` - Evokes darkened command centers and serious analytical work in low-light environments
+- **Secondary Colors**: Dark slate `oklch(0.22 0.02 135)` for subtle depth; near-black `oklch(0.12 0.01 135)` for backgrounds suggests bunker control rooms and classified terminals
+- **Accent Color**: Phosphor terminal green `oklch(0.68 0.20 150)` - Iconic CRT terminal glow for the clock and active elements, signals urgency and draws focus in darkness
 - **Foreground/Background Pairings**: 
-  - Background Sepia `oklch(0.92 0.02 65)`: Dark charcoal text `oklch(0.20 0.01 135)` - Ratio 11.2:1 ✓
-  - Primary Olive `oklch(0.35 0.06 135)`: White text `oklch(0.99 0 0)` - Ratio 8.1:1 ✓
-  - Accent Green `oklch(0.75 0.18 145)`: Dark charcoal `oklch(0.20 0.01 135)` - Ratio 8.5:1 ✓
-  - Destructive Red `oklch(0.55 0.22 25)`: White text `oklch(0.99 0 0)` - Ratio 4.9:1 ✓
+  - Background Black `oklch(0.12 0.01 135)`: Light gray text `oklch(0.88 0.02 145)` - Ratio 13.8:1 ✓
+  - Primary Charcoal `oklch(0.28 0.08 140)`: Light gray text `oklch(0.95 0.02 145)` - Ratio 10.2:1 ✓
+  - Accent Green `oklch(0.68 0.20 150)`: Dark background `oklch(0.12 0.01 135)` - Ratio 11.5:1 ✓
+  - Destructive Red `oklch(0.48 0.24 28)`: Light text `oklch(0.95 0 0)` - Ratio 7.1:1 ✓
 
 ## Font Selection
 

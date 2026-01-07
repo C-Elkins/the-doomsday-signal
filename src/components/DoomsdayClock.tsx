@@ -13,10 +13,10 @@ export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }
 
   const getStateColor = () => {
     switch (riskState) {
-      case 'stable': return 'oklch(0.75 0.18 145)'
-      case 'elevated': return 'oklch(0.80 0.18 85)'
-      case 'severe': return 'oklch(0.75 0.20 55)'
-      case 'critical': return 'oklch(0.55 0.22 25)'
+      case 'stable': return 'oklch(0.68 0.20 150)'
+      case 'elevated': return 'oklch(0.75 0.20 75)'
+      case 'severe': return 'oklch(0.72 0.22 50)'
+      case 'critical': return 'oklch(0.62 0.26 28)'
     }
   }
 
@@ -48,7 +48,7 @@ export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }
             cy="200"
             r="180"
             fill="none"
-            stroke="oklch(0.80 0.02 65)"
+            stroke="oklch(0.26 0.02 135)"
             strokeWidth="2"
           />
 
@@ -57,7 +57,7 @@ export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }
             cy="200"
             r="160"
             fill="none"
-            stroke="oklch(0.80 0.02 65)"
+            stroke="oklch(0.22 0.02 135)"
             strokeWidth="1"
           />
 
@@ -74,7 +74,7 @@ export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }
                 y1={y1}
                 x2={x2}
                 y2={y2}
-                stroke="oklch(0.45 0.02 135)"
+                stroke="oklch(0.52 0.02 140)"
                 strokeWidth="2"
               />
             )
@@ -118,7 +118,7 @@ export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }
             x="200"
             y="210"
             textAnchor="middle"
-            fill="oklch(0.45 0.02 135)"
+            fill="oklch(0.52 0.02 140)"
             fontSize="14"
             fontFamily="Space Mono, monospace"
             fontWeight="700"
@@ -137,8 +137,8 @@ export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }
                   cx={x}
                   cy={y}
                   r="3"
-                  fill="oklch(0.45 0.02 135)"
-                  opacity="0.6"
+                  fill="oklch(0.52 0.02 140)"
+                  opacity="0.5"
                 />
               </g>
             )

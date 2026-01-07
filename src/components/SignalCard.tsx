@@ -22,10 +22,10 @@ export function SignalCard({ signal, currentTime }: SignalCardProps) {
 
   const getCategoryColor = () => {
     switch (signal.category) {
-      case 'geopolitical': return 'oklch(0.55 0.15 240)'
-      case 'media': return 'oklch(0.60 0.15 280)'
-      case 'cyber': return 'oklch(0.55 0.18 355)'
-      case 'strategic': return 'oklch(0.50 0.15 25)'
+      case 'geopolitical': return 'oklch(0.65 0.18 240)'
+      case 'media': return 'oklch(0.68 0.18 280)'
+      case 'cyber': return 'oklch(0.65 0.20 355)'
+      case 'strategic': return 'oklch(0.62 0.20 35)'
     }
   }
 
