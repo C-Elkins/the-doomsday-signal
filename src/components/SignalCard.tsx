@@ -2,16 +2,18 @@ import { Signal } from '@/lib/types'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
-import { Globe, Newspaper, ShieldWarning, Rocket, TrendUp, TrendDown } from '@phosphor-icons/react'
+import { Button } from '@/components/ui/button'
+import { Globe, Newspaper, ShieldWarning, Rocket, TrendUp, TrendDown, Trash } from '@phosphor-icons/react'
 import { getSignalDecayPercent } from '@/lib/risk-calculator'
 import { motion } from 'framer-motion'
 
 interface SignalCardProps {
   signal: Signal
   currentTime: number
+  onDelete?: (signalId: string) => void
 }
 
-export function SignalCard({ signal, currentTime }: SignalCardProps) {
+export function SignalCard({ signal, currentTime, onDelete }: SignalCardProps) {
   const getCategoryIcon = () => {
     switch (signal.category) {
       case 'geopolitical': return <Globe weight="duotone" />
@@ -67,25 +69,38 @@ export function SignalCard({ signal, currentTime }: SignalCardProps) {
               </Badge>
               <p className="font-mono text-sm leading-relaxed">{signal.description}</p>
             </div>
-            <motion.div 
-              className="flex items-center gap-2 flex-shrink-0"
-              initial={{ scale: 1.2, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.1, duration: 0.3 }}
-            >
-              {isPositive ? (
-                <TrendUp className="text-destructive" weight="bold" />
-              ) : (
-                <TrendDown className="text-accent" weight="bold" />
-              )}
-              <span
-                className={`font-display text-2xl font-bold tabular-nums ${
-                  isPositive ? 'text-destructive' : 'text-accent'
-                }`}
+            <div className="flex items-center gap-3">
+              <motion.div 
+                className="flex items-center gap-2 flex-shrink-0"
+                initial={{ scale: 1.2, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.1, duration: 0.3 }}
               >
-                {isPositive ? '+' : ''}{signal.weight}
-              </span>
-            </motion.div>
+                {isPositive ? (
+                  <TrendUp className="text-destructive" weight="bold" />
+                ) : (
+                  <TrendDown className="text-accent" weight="bold" />
+                )}
+                <span
+                  className={`font-display text-2xl font-bold tabular-nums ${
+                    isPositive ? 'text-destructive' : 'text-accent'
+                  }`}
+                >
+                  {isPositive ? '+' : ''}{signal.weight}
+                </span>
+              </motion.div>
+              {onDelete && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => onDelete(signal.id)}
+                  className="opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
+                  aria-label="Delete signal"
+                >
+                  <Trash weight="bold" className="text-destructive" />
+                </Button>
+              )}
+            </div>
           </div>
 
           <div className="space-y-2">

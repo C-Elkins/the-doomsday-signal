@@ -49,7 +49,7 @@ export function AddSignalDialog({ onAddSignal }: AddSignalDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="gap-2 font-mono uppercase tracking-wide">
+        <Button className="gap-2 font-mono uppercase tracking-wide" aria-label="Add new signal">
           <Plus weight="bold" />
           Add Signal
         </Button>
@@ -163,15 +163,15 @@ export function AddSignalDialog({ onAddSignal }: AddSignalDialogProps) {
 
               <div className="space-y-2">
                 <Label htmlFor="weight" className="font-mono text-xs uppercase tracking-wide">
-                  Impact Weight
+                  Impact Weight (required, non-zero)
                 </Label>
                 <div className="flex items-center gap-4">
                   <Input
                     id="weight"
                     type="number"
-                    value={weight}
-                    onChange={(e) => setWeight(Number(e.target.value))}
-                    placeholder="0"
+                    value={weight === 0 ? '' : weight}
+                    onChange={(e) => setWeight(e.target.value === '' ? 0 : Number(e.target.value))}
+                    placeholder="Enter impact weight..."
                     className="font-display text-lg tabular-nums"
                     step="1"
                     required

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { Signal, SignalCategory, HistoricalEvent } from '@/lib/types'
-import { calculateTotalScore, scoreToMinutes, getRiskState } from '@/lib/risk-calculator'
+import { calculateTotalScore, scoreToMinutes, getRiskState, calculateCurrentWeight } from '@/lib/risk-calculator'
 import { DoomsdayClock } from '@/components/DoomsdayClock'
 import { SignalCard } from '@/components/SignalCard'
 import { AddSignalDialog } from '@/components/AddSignalDialog'
@@ -31,7 +31,7 @@ function App() {
   useEffect(() => {
     setSignals((currentSignals) => 
       (currentSignals || []).filter((signal) => {
-        const decayPercent = (calculateTotalScore([signal], currentTime) / signal.weight) * 100
+        const decayPercent = Math.abs((calculateCurrentWeight(signal, currentTime) / signal.weight) * 100)
         return decayPercent > 5
       })
     )
@@ -75,6 +75,13 @@ function App() {
     }
     setSignals((currentSignals) => [newSignal, ...(currentSignals || [])])
     playTickSound()
+  }
+
+  const handleDeleteSignal = (signalId: string) => {
+    setSignals((currentSignals) => (currentSignals || []).filter(s => s.id !== signalId))
+    toast.success('Signal removed', {
+      description: 'The signal has been removed from the feed.',
+    })
   }
 
   const handleResetSignals = () => {
@@ -128,6 +135,7 @@ function App() {
                 onClick={handleResetSignals}
                 disabled={activeSignals.length === 0}
                 className="font-mono text-xs"
+                aria-label="Reset all signals"
               >
                 <ArrowCounterClockwise className="mr-2" />
                 Reset All
@@ -161,11 +169,12 @@ function App() {
               {activeSignals.length === 0 ? (
                 <div className="text-center py-16 px-4 border-2 border-dashed border-border rounded-lg">
                   <p className="font-mono text-sm text-muted-foreground mb-4">
-                    No active signals. Add your first signal to see how risk escalates.
+                    No active signals detected. The global risk state is currently STABLE.
                   </p>
-                  <p className="font-mono text-xs text-muted-foreground">
-                    Current state: STABLE
+                  <p className="font-mono text-xs text-muted-foreground mb-6">
+                    Add signals to see how geopolitical, cyber, media, and strategic events impact global risk assessment.
                   </p>
+                  <AddSignalDialog onAddSignal={handleAddSignal} />
                 </div>
               ) : (
                 <ScrollArea className="h-[600px] pr-4">
@@ -179,7 +188,7 @@ function App() {
                           exit={{ opacity: 0, x: -20 }}
                           transition={{ duration: 0.3 }}
                         >
-                          <SignalCard signal={signal} currentTime={currentTime} />
+                          <SignalCard signal={signal} currentTime={currentTime} onDelete={handleDeleteSignal} />
                         </motion.div>
                       ))}
                     </AnimatePresence>
