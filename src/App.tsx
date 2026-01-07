@@ -10,8 +10,11 @@ import { HistoricalContext } from '@/components/HistoricalContext'
 import { StatsSummary } from '@/components/StatsSummary'
 import { Separator } from '@/components/ui/separator'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Button } from '@/components/ui/button'
 import { useAudio } from '@/hooks/use-audio'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowCounterClockwise } from '@phosphor-icons/react'
+import { toast } from 'sonner'
 
 function App() {
   const [signals, setSignals] = useKV<Signal[]>('doomsday-signals', [])
@@ -74,6 +77,13 @@ function App() {
     playTickSound()
   }
 
+  const handleResetSignals = () => {
+    setSignals([])
+    toast.success('All signals cleared', {
+      description: 'The doomsday clock has been reset to stable state.',
+    })
+  }
+
   const activeSignals = signals || []
 
   return (
@@ -111,7 +121,19 @@ function App() {
                 A symbolic visualization of global tension signals
               </p>
             </div>
-            <AddSignalDialog onAddSignal={handleAddSignal} />
+            <div className="flex items-center gap-3">
+              <Button
+                variant="outline"
+                size="default"
+                onClick={handleResetSignals}
+                disabled={activeSignals.length === 0}
+                className="font-mono text-xs"
+              >
+                <ArrowCounterClockwise className="mr-2" />
+                Reset All
+              </Button>
+              <AddSignalDialog onAddSignal={handleAddSignal} />
+            </div>
           </div>
           <DisclaimerBanner />
         </header>
