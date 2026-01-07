@@ -9,7 +9,9 @@ interface DoomsdayClockProps {
 }
 
 export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }: DoomsdayClockProps) {
-  const angle = ((60 - minutesToMidnight) / 60) * 360
+  const clampedMinutes = Math.max(0, Math.min(12, minutesToMidnight))
+  const dangerPercent = ((12 - clampedMinutes) / 12) * 100
+  const angle = (dangerPercent / 100) * 360
 
   const getStateColor = () => {
     switch (riskState) {
@@ -184,17 +186,19 @@ export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }
               )
             })}
 
-            <motion.path
-              d={`M 250 250 L 250 35 A 215 215 0 ${angle > 180 ? 1 : 0} 1 ${
-                250 + 215 * Math.sin((angle * Math.PI) / 180)
-              } ${250 - 215 * Math.cos((angle * Math.PI) / 180)} Z`}
-              fill={getStateColor()}
-              opacity="0.25"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.25 }}
-              transition={{ duration: 1.5, ease: 'easeInOut' }}
-              filter="url(#glow)"
-            />
+            {angle > 0 && (
+              <motion.path
+                d={`M 250 250 L 250 35 A 215 215 0 ${angle > 180 ? 1 : 0} 1 ${
+                  250 + 215 * Math.sin((angle * Math.PI) / 180)
+                } ${250 - 215 * Math.cos((angle * Math.PI) / 180)} Z`}
+                fill={getStateColor()}
+                opacity="0.25"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 0.25, scale: 1 }}
+                transition={{ duration: 0.8, ease: 'easeOut' }}
+                filter="url(#glow)"
+              />
+            )}
 
             <circle
               cx="250"
