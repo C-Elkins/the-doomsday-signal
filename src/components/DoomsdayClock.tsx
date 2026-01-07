@@ -11,7 +11,7 @@ interface DoomsdayClockProps {
 }
 
 export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }: DoomsdayClockProps) {
-  const angle = -((minutesToMidnight / 60) * 360)
+  const angle = ((60 - minutesToMidnight) / 60) * 360
   const prevMinutesRef = useRef<number>(minutesToMidnight)
   const { playZoneCrossing } = useAudio(true)
 
@@ -271,7 +271,7 @@ export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }
             />
 
             {historicalEvents.map((event, i) => {
-              const eventAngle = -((event.minutesToMidnight / 60) * 360) - 90
+              const eventAngle = ((60 - event.minutesToMidnight) / 60) * 360 - 90
               const radians = (eventAngle * Math.PI) / 180
               const x = 250 + 175 * Math.cos(radians)
               const y = 250 + 175 * Math.sin(radians)
