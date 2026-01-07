@@ -9,7 +9,7 @@ interface DoomsdayClockProps {
 }
 
 export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }: DoomsdayClockProps) {
-  const angle = ((12 - minutesToMidnight) / 12) * 360
+  const angle = -((minutesToMidnight / 60) * 360)
 
   const getStateColor = () => {
     switch (riskState) {
@@ -250,7 +250,7 @@ export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }
             />
 
             {historicalEvents.map((event, i) => {
-              const eventAngle = ((12 - event.minutesToMidnight) / 12) * 360 - 90
+              const eventAngle = -((event.minutesToMidnight / 60) * 360) - 90
               const radians = (eventAngle * Math.PI) / 180
               const x = 250 + 175 * Math.cos(radians)
               const y = 250 + 175 * Math.sin(radians)
