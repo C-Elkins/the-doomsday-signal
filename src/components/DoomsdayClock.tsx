@@ -31,10 +31,14 @@ export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }
   }
 
   return (
-    <div className="flex flex-col items-center gap-8 py-12">
-      <div className="relative w-80 h-80 md:w-96 md:h-96">
+    <div className="relative w-full">
+      <div className="absolute inset-0 h-full">
         <WorldMap />
-        <svg viewBox="0 0 400 400" className="w-full h-full relative z-10">
+      </div>
+      
+      <div className="relative flex flex-col items-center gap-8 py-12 z-10">
+        <div className="relative w-80 h-80 md:w-96 md:h-96">
+          <svg viewBox="0 0 400 400" className="w-full h-full relative z-10">
           <defs>
             <filter id="glow">
               <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -169,6 +173,7 @@ export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }
         >
           {getStateLabel()}
         </div>
+      </div>
       </div>
     </div>
   )
