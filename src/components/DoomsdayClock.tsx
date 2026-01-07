@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { RiskState } from '@/lib/types'
 import { HistoricalEvent } from '@/lib/types'
+import { WorldMap } from '@/components/WorldMap'
 
 interface DoomsdayClockProps {
   minutesToMidnight: number
@@ -32,7 +33,8 @@ export function DoomsdayClock({ minutesToMidnight, riskState, historicalEvents }
   return (
     <div className="flex flex-col items-center gap-8 py-12">
       <div className="relative w-80 h-80 md:w-96 md:h-96">
-        <svg viewBox="0 0 400 400" className="w-full h-full">
+        <WorldMap />
+        <svg viewBox="0 0 400 400" className="w-full h-full relative z-10">
           <defs>
             <filter id="glow">
               <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
